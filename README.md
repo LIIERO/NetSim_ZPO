@@ -7,4 +7,4 @@ Członkowie grupy:
 
 Kierownik grupy: Dawid Maziarski
 
-URL repozytorium: <URL>
+URL repozytorium: https://github.com/LIIERO/NetSim_ZPO
