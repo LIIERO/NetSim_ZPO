@@ -1,8 +1,11 @@
 #ifndef NETSIM_STORAGE_TYPES_HPP
 #define NETSIM_STORAGE_TYPES_HPP
 
+#include "package.hpp"
+
 #include <cstdlib>
 #include <iostream>
+#include <list>
 
 
 
@@ -15,34 +18,33 @@ enum class PackageQueueType {
 
 class IPackageStockpile {
 public:
-    void push(Package&& package);
 
-    bool empty() const;
+    virtual void push(Package&& package) = 0;
 
-    std::size_t size() const;
+    virtual bool empty() const = 0;
 
-    //TODO: Implement iterators and fix size() (look into size_type) !!!
+    virtual std::size_t size() const = 0;
 
-    ~IPackageStockpile() = default;
+    //TODO: Implement iterators and fix ->size()<- (look into size_type) !!!
+
+    virtual ~IPackageStockpile() = default;
+
 private:
+    using const_iterator = std::list<Package>::const_iterator;
 };
 
 
 class IPackageQueue : public IPackageStockpile {
 public:
-    Package pop();
+    virtual Package pop() = 0;
 
-    PackageQueueType get_queue_type() const;
-private:
-
+    virtual PackageQueueType get_queue_type() const = 0;
 };
 
 
 class PackageQueue : IPackageQueue {
 public:
     PackageQueue(PackageQueueType pqt);//Remember to
-private:
-
 };
 
 
