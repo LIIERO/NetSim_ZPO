@@ -13,4 +13,25 @@ set(SOURCE_FILES
         src/storage_types.cpp)
 
 
-add_executable(NetSim ${SOURCE_FILES} main.cpp)
+add_executable(NetSim_ZPO ${SOURCE_FILES} main.cpp)
+
+
+
+set(SOURCES_FILES_TESTS
+        test/test_package.cpp
+        test/test_Package_queue.cpp
+        )
+
+add_executable(NetSim_ZPO__test ${SOURCE_FILES} ${SOURCES_FILES_TESTS} test/main_gtest.cpp)
+
+# TODO: Poniższe ścieżki prawdopodobnie musisz zmienić...
+target_include_directories(NetSim_ZPO__test PUBLIC
+        ../googletest-master/googlemock/include
+        ../googletest-master/googletest/include
+        )
+
+# TODO: Poniższą ścieżkę prawdopodobnie musisz zmienić...
+add_subdirectory(../googletest-master googletest-master)
+
+target_link_libraries(NetSim_ZPO__test gmock)
+
