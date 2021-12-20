@@ -28,7 +28,7 @@ Package::Package() {
 Package::~Package() {
     assigned_IDs.erase(_id);
     freed_IDs.insert(_id);
-    delete &_id;
+    _id.~ElementID();
 }
 
 Package& Package::operator=(Package&& package) {
