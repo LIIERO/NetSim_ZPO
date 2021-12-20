@@ -4,7 +4,7 @@ project(NetSim_ZPO)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_compile_options(-Wall -Wextra -Werror -Wpedantic -pedantic-errors)
+add_compile_options(-Wall -Wextra -Werror -Wpedantic -pedantic-errors -Wconversion)
 
 include_directories(include)
 
