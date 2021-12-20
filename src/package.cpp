@@ -25,11 +25,13 @@ Package::Package() {
     assigned_IDs.insert(new_id);
 }
 
+
 Package::~Package() {
     assigned_IDs.erase(_id);
     freed_IDs.insert(_id);
     _id.~ElementID();
 }
+
 
 Package& Package::operator=(Package&& package) {
     _id = package._id;
