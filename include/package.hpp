@@ -1,5 +1,5 @@
-#ifndef SIECI_HEADER_
-#define SIECI_HEADER_
+#ifndef NETSIM_PACKAGE_HPP
+#define NETSIM_PACKAGE_HPP
 
 #include "types.hpp"
 
@@ -8,11 +8,11 @@
 
 
 class Package {
-    public:
+public:
 
     Package() = default;
 
-    Package(ElementID id);
+    Package(ElementID id) : id_(id) {}
 
     Package(Package&& package);
 
@@ -20,12 +20,11 @@ class Package {
 
     ElementID get_id() const { return id_; }
 
-    ~Package() = default;
+    ~Package();
 
-    private:
+private:
 
     ElementID id_; //TODO: must be changed
-
 };
 
 
