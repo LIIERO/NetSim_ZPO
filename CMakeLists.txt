@@ -19,7 +19,12 @@ add_executable(NetSim_ZPO ${SOURCE_FILES} main.cpp)
 
 set(SOURCES_FILES_TESTS
         test/test_package.cpp
-        test/test_Package_queue.cpp
+#        test/test_Factory.cpp
+#        test/test_factory_io.cpp
+#        test/test_nodes.cpp
+#        test/test_reports.cpp
+#        test/test_simulate.cpp
+        test/test_storage_types.cpp
         )
 
 add_executable(NetSim_ZPO__test ${SOURCE_FILES} ${SOURCES_FILES_TESTS} test/main_gtest.cpp)

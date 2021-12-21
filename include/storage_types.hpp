@@ -10,8 +10,8 @@
 
 
 enum class PackageQueueType {
-    LIFO,
-    FIFO
+    FIFO,
+    LIFO
 };
 
 
@@ -45,7 +45,7 @@ public:
 
     virtual PackageQueueType get_queue_type() const = 0;
 
-    virtual ~IPackageQueue() = default;
+    //virtual ~IPackageQueue() = default;
 
 };
 
@@ -71,9 +71,11 @@ public:
     Package pop() override;
 
 private:
+
     std::list<Package> pack_queue_;
 
     PackageQueueType queue_type_;
+
 };
 
 

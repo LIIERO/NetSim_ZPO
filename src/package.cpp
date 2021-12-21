@@ -33,7 +33,7 @@ Package::~Package() {
 }
 
 
-Package& Package::operator=(Package&& package) {
-    _id = package._id;
-    return (*this);
-}
+//Package& Package::operator=(Package&& package) {
+//    _id = package._id;
+//    return (*this);
+//}

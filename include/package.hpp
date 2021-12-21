@@ -17,7 +17,7 @@ public:
 
     Package(Package&& package) = default;
 
-    Package& operator=(Package&& package);
+    Package& operator=(Package&& package) = default;
 
     [[nodiscard]] ElementID get_id() const { return _id; }
 
