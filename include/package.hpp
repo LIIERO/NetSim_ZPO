@@ -19,7 +19,7 @@ public:
 
     Package& operator=(Package&& package) = default;
 
-    [[nodiscard]] ElementID get_id() const { return _id; }
+    ElementID get_id() const { return _id; }
 
     ~Package();
 

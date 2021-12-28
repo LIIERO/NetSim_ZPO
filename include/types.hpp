@@ -5,5 +5,8 @@
 
 using ElementID = std::size_t;
 
+using TimeOffset = int;
+
+using Time = int;
 
 #endif
