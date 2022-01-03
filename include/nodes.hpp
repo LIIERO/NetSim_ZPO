@@ -4,12 +4,16 @@
 #include "storage_types.hpp"
 #include "helpers.hpp"
 
+
 #include <cstdlib>
 #include <iostream>
 #include <list>
 #include <memory>
 #include <map>
 
+enum class ReceiverType{
+    WORKER,STOREHOUSE
+};
 
 class ReceiverPreferences {
 public:
@@ -54,6 +58,7 @@ class IPackageReceiver {
 public:
 
     virtual void receive_package(Package&& package) = 0;
+    virtual  ReceiverType get_receiver_type(void);
 
     virtual IPackageStockpile::const_iterator begin() const = 0;
     virtual IPackageStockpile::const_iterator end() const = 0;
