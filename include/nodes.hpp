@@ -72,47 +72,57 @@ public:
 
 
 
-class Storehouse : public IPackageStockpile, public IPackageReceiver {
+class PackageSender {
 public:
+    PackageSender() = default;
 
-    Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d) : id_(id), package_queue_ptr_(std::move(d)) {}
+    PackageSender(PackageSender&&) = default;
 
-private:
+    void send_package();
 
-    ElementID id_;
+    std::optional<Package>& get_sending_buffer() { return buffer_; }
 
-    std::unique_ptr<IPackageStockpile> package_queue_ptr_;
+    ReceiverPreferences receiver_preferences_; // Pole publiczne
 
+protected:
+    std::optional<Package> buffer_ = std::nullopt;
+    void push_package(Package&& package) { buffer_.emplace(std::move(package)); }
 };
-
 
 
 class Ramp : public PackageSender {
 public:
-
-    Ramp(ElementID id, TimeOffset di);
+    Ramp(ElementID id, TimeOffset di): id_(id), di_(di) {}
 
     void delivery_goods(Time t);
 
-    TimeOffset get_delivery_interval() const;
+    TimeOffset get_delivery_interval() const { return di_; };
 
-    ElementID get_id() const;
+    ElementID get_id() const { return id_; };
 
+private:
+    ElementID id_;
+    TimeOffset di_;
 };
-
 
 
 class Worker : public IPackageQueue, public IPackageReceiver, public PackageSender {
 public:
-
-    Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> q);
+    Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> q): id_(id), pd_(pd), q_(std::move(q)) {}
 
     void do_work(Time t);
 
-    TimeOffset get_processing_duration() const;
+    TimeOffset get_processing_duration() const { return pd_; }
 
-    Time get_processing_start_time() const;
+    Time get_processing_start_time() const { return time_; }
 
+    ElementID get_id() const { return id_; }
+
+private:
+    ElementID id_;
+    TimeOffset pd_;
+    std::unique_ptr<IPackageQueue> q_;
+    Time time_ = 0;
 };
 
 
