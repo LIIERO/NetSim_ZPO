@@ -3,10 +3,11 @@
 #ifndef SIECI_TYPES_HPP
 #define SIECI_TYPES_HPP
 
+//TODO: sprawdzić typy tych danych (poniżej)
 using ElementID = std::size_t;
 
-using TimeOffset = int;
+using TimeOffset = std::size_t;
 
-using Time = int;
+using Time = std::size_t;
 
 #endif

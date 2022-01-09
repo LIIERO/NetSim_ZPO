@@ -11,9 +11,14 @@
 #include <memory>
 #include <map>
 
+
+
 enum class ReceiverType{
-    WORKER,STOREHOUSE
+    WORKER,
+    STOREHOUSE
 };
+
+
 
 class ReceiverPreferences {
 public:
@@ -33,6 +38,7 @@ public:
     preferences_t& get_preferences();
 
 };
+
 
 
 class PackageSender {
@@ -58,13 +64,13 @@ class IPackageReceiver {
 public:
 
     virtual void receive_package(Package&& package) = 0;
-    virtual  ReceiverType get_receiver_type(void);
+
+    virtual ReceiverType get_receiver_type() = 0;
 
     virtual IPackageStockpile::const_iterator begin() const = 0;
     virtual IPackageStockpile::const_iterator end() const = 0;
     virtual IPackageStockpile::const_iterator cbegin() const = 0;
     virtual IPackageStockpile::const_iterator cend() const = 0;
-
 
     virtual ElementID get_id() const = 0;
 
@@ -72,22 +78,34 @@ public:
 
 
 
-class PackageSender {
+class Storehouse : public IPackageReceiver {
 public:
-    PackageSender() = default;
+//    PackageSender() = default;
+//
+//    PackageSender(PackageSender&& other) = default; //to jest nie potrzebne!!!
 
-    PackageSender(PackageSender&&) = default;
+    ElementID get_id() const override { return id_; }
 
-    void send_package();
+    void receive_package(Package&& other_package) override;
 
-    std::optional<Package>& get_sending_buffer() { return buffer_; }
+private:
 
-    ReceiverPreferences receiver_preferences_; // Pole publiczne
+    ElementID id_;
 
-protected:
-    std::optional<Package> buffer_ = std::nullopt;
-    void push_package(Package&& package) { buffer_.emplace(std::move(package)); }
+    //TODO sprawdzić to
+    //std::optional<Package>& get_sending_buffer() { return buffer_; }
+
+    std::unique_ptr<IPackageStockpile> package_queue_ptr_;  // = std::make_unique<PackageQueue> (PackageQueueType::FIFO);
+                                                                // nie wiem czy to nam potrzebne ogólnie
+    //TODO to chyba  jest nie potrzebne
+//protected:
+//
+//    std::optional<Package> buffer_ = std::nullopt;
+//
+//    void push_package(Package&& package) { buffer_.emplace(std::move(package)); }
+
 };
+
 
 
 class Ramp : public PackageSender {
@@ -101,13 +119,17 @@ public:
     ElementID get_id() const { return id_; };
 
 private:
+
     ElementID id_;
+
     TimeOffset di_;
 };
 
 
-class Worker : public IPackageQueue, public IPackageReceiver, public PackageSender {
+
+class Worker : public IPackageReceiver, public PackageSender {
 public:
+
     Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> q): id_(id), pd_(pd), q_(std::move(q)) {}
 
     void do_work(Time t);
@@ -116,13 +138,22 @@ public:
 
     Time get_processing_start_time() const { return time_; }
 
-    ElementID get_id() const { return id_; }
+    //implementacja IPackageReceiver
+    ElementID get_id() const override { return id_; }
+
+    //TODO: sprawdzić
+    void receive_package(Package&& package) override;
 
 private:
+
     ElementID id_;
+
     TimeOffset pd_;
+
     std::unique_ptr<IPackageQueue> q_;
+
     Time time_ = 0;
+
 };
 
 
