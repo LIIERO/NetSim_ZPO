@@ -20,11 +20,27 @@ enum class ReceiverType{
 
 
 
-class ReceiverPreferences {
+class IPackageReceiver {
 public:
 
-    using preferences_t = std::map<IPackageReceiver*, double>;
+    virtual void receive_package(Package&& package) = 0;
 
+    virtual ReceiverType get_receiver_type() = 0;
+
+    virtual IPackageStockpile::const_iterator begin() const = 0;
+    virtual IPackageStockpile::const_iterator end() const = 0;
+    virtual IPackageStockpile::const_iterator cbegin() const = 0;
+    virtual IPackageStockpile::const_iterator cend() const = 0;
+
+    virtual ElementID get_id() const = 0;
+
+};
+
+
+
+class ReceiverPreferences {
+public:
+    using preferences_t = std::map<IPackageReceiver*, double>;
     using const_iterator = preferences_t::const_iterator;
 
     ReceiverPreferences(ProbabilityGenerator pg);
@@ -55,24 +71,6 @@ public:
 private:
 
     ReceiverPreferences receiver_preferences_;
-
-};
-
-
-
-class IPackageReceiver {
-public:
-
-    virtual void receive_package(Package&& package) = 0;
-
-    virtual ReceiverType get_receiver_type() = 0;
-
-    virtual IPackageStockpile::const_iterator begin() const = 0;
-    virtual IPackageStockpile::const_iterator end() const = 0;
-    virtual IPackageStockpile::const_iterator cbegin() const = 0;
-    virtual IPackageStockpile::const_iterator cend() const = 0;
-
-    virtual ElementID get_id() const = 0;
 
 };
 
