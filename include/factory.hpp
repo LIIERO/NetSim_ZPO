@@ -64,18 +64,12 @@ public:
     ~Workers() = default;
 };
 
-
-
 class Factory {
 private:
-
-    Ramps* ramps = new Ramps();
-
-    Workers* workers = new Workers();
-
-    Storehouses* storehouses = new Storehouses();
-
-    void remove_receiver(NodeCollection<IPackageReceiver>& collection, ElementID id);
+    
+    Ramps ramps;
+    Workers workers;
+    Storehouses storehouses;
 
     template<class Node> void remove_receiver(NodeCollection<Node>& collection, ElementID id){
         for(auto& node : collection){
@@ -99,16 +93,12 @@ public:
 
     Factory() = default;
 
-    void add_ramp(Ramp&&);
-
-    void add_worker(Worker&&);
-
-    void add_storehouse(Storehouse&&);
+    void add_ramp(Ramp&& ramp);
+    void add_worker(Worker&& worker);
+    void add_storehouse(Storehouse&& storehouse);
 
     void remove_ramp(ElementID id);
-
     void remove_worker(ElementID id);
-
     void remove_storehouse(ElementID id);
 
     NodeCollection<Ramp>::iterator find_ramp_by_id(ElementID id);
@@ -128,24 +118,16 @@ public:
     NodeCollection<Storehouse>::const_iterator  storehouse_cend();
 
     bool is_consistent(void);
-
     void do_deliveries(Time);
-
     void do_package_passing(void);
-
     void do_work(Time);
-
-    ~Factory();
+    ~Factory() = default;
 
 };
 
+enum class NodeColor { UNVISITED, VISITED, VERIFIED };
 
 
-enum class NodeColor {
-    UNVISITED,
-    VISITED,
-    VERIFIED
-};
 
 
 #endif //NETSIM_ZPO_FACTORY1_HPP
