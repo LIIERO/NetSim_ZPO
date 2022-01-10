@@ -79,7 +79,7 @@ public:
 
     PackageSender() = default;
 
-    PackageSender(PackageSender&&) = default;
+    PackageSender(PackageSender&& other) = default;
 
     void send_package();
 
@@ -162,7 +162,7 @@ public:
     ElementID get_id() const override { return id_; }
 
     //TODO: sprawdzić
-    void receive_package(Package&& package) override;
+    void receive_package(Package&& other_package) override;
 
     IPackageStockpile::const_iterator begin() const override { return q_->begin(); };
     IPackageStockpile::const_iterator end() const override { return q_->end();};
