@@ -79,7 +79,7 @@ public:
 
     PackageSender() = default;
 
-    PackageSender(PackageSender&& other) = default;
+    PackageSender(PackageSender&&) = default;
 
     void send_package();
 
@@ -112,7 +112,7 @@ public:
     IPackageStockpile::const_iterator cbegin() const override { return d_->cbegin(); }
     IPackageStockpile::const_iterator cend() const override { return d_->cend(); }
 
-    ReceiverType get_receiver_type() const override { return node_type_; }
+    //ReceiverType get_receiver_type() const override { return node_type_; }
 
 private:
 
@@ -162,14 +162,14 @@ public:
     ElementID get_id() const override { return id_; }
 
     //TODO: sprawdzić
-    void receive_package(Package&& other_package) override;
+    void receive_package(Package&& package) override;
 
     IPackageStockpile::const_iterator begin() const override { return q_->begin(); };
     IPackageStockpile::const_iterator end() const override { return q_->end();};
     IPackageStockpile::const_iterator cbegin() const override { return q_->cbegin(); };
     IPackageStockpile::const_iterator cend() const override { return q_->cend(); };
 
-    ReceiverType get_receiver_type() const override { return node_type_; }
+    //ReceiverType get_receiver_type() const override { return node_type_; }
 
 private:
 

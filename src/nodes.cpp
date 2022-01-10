@@ -40,18 +40,16 @@ void Worker::do_work(Time t) {
 
 
 
-void Worker::receive_package(Package&& other_package) {
+void Worker::receive_package(Package&& package) {
     //TODO:
-    q_ -> push(std::move(other_package));
+    q_->push(std::move(package));
 }
-
 
 void Storehouse::receive_package(Package&& other_package) {
     // TODO generalnie to jest to z własnością i nie jestem
     // TODO pewienczy to gówno tak ma wyglądać, poprawić ewentualnie
-    d_ -> push(std::move(other_package));
+    d_->push(std::move(other_package));
 }
-
 
 void ReceiverPreferences::scale() {
     auto size = double(preferences_.size());
