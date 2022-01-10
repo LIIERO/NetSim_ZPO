@@ -10,6 +10,8 @@ void PackageSender::send_package() {
     }
 }
 
+
+
 void Ramp::delivery_goods(Time t) {
     // TODO: czy typ danych się będzie zgadzał
     // Czas liczony od jedynki czyli minus jeden żeby było git
@@ -41,15 +43,14 @@ void Worker::do_work(Time t) {
 
 
 void Worker::receive_package(Package&& package) {
-    //TODO:
     q_->push(std::move(package));
 }
 
 void Storehouse::receive_package(Package&& other_package) {
-    // TODO generalnie to jest to z własnością i nie jestem
-    // TODO pewienczy to gówno tak ma wyglądać, poprawić ewentualnie
     d_->push(std::move(other_package));
 }
+
+
 
 void ReceiverPreferences::scale() {
     auto size = double(preferences_.size());
@@ -59,10 +60,14 @@ void ReceiverPreferences::scale() {
     }
 }
 
+
+
 void ReceiverPreferences::add_receiver(IPackageReceiver* r) {
     preferences_.insert(std::make_pair(r, 1));
     scale();
 }
+
+
 
 void ReceiverPreferences::remove_receiver(IPackageReceiver* r) {
     preferences_.erase(r);

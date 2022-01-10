@@ -112,7 +112,7 @@ public:
     IPackageStockpile::const_iterator cbegin() const override { return d_->cbegin(); }
     IPackageStockpile::const_iterator cend() const override { return d_->cend(); }
 
-    //ReceiverType get_receiver_type() const override { return node_type_; }
+    ReceiverType get_receiver_type() const override { return node_type_; }
 
 private:
 
@@ -169,7 +169,7 @@ public:
     IPackageStockpile::const_iterator cbegin() const override { return q_->cbegin(); };
     IPackageStockpile::const_iterator cend() const override { return q_->cend(); };
 
-    //ReceiverType get_receiver_type() const override { return node_type_; }
+    ReceiverType get_receiver_type() const override { return node_type_; }
 
 private:
 

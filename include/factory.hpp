@@ -8,38 +8,46 @@
 template <class Node> class NodeCollection{
 
 public:
+
     using container_t = typename std::vector<Node>;
     using iterator = typename container_t::iterator;
     using const_iterator = typename container_t::const_iterator;
 
     void add(Node&& node){
-        nodes.push_back(node);
+        nodes_.push_back(std::move(node));
     }
+
     void remove_by_id(ElementID id){
-        nodes.erase(std::remove_if(nodes.begin(),nodes.end(), [id](ElementID x){return (x == id);}));
+        nodes_.erase(std::remove_if(nodes_.begin(),nodes_.end(), [id](const auto &node){return (node.get_id() == id);}));
     }
+
     NodeCollection<Node>::iterator find_by_id(ElementID id){
-        return std::find_if(nodes.begin(),nodes.end(), [id](ElementID x){return (x == id);});
+        return std::find_if(nodes_.begin(),nodes_.end(), [id](const auto &node){return (node.get_id() == id);});
     };
-    const NodeCollection<Node>::const_iterator find_by_id (ElementID id) const{
-        return std::find_if(nodes.begin(),nodes.end(), [id](ElementID x){return (x == id);});
+
+    NodeCollection<Node>::const_iterator find_by_id (ElementID id) const{
+        return std::find_if(nodes_.cbegin(),nodes_.cend(), [id](const auto &node){return (node.get_id() == id);});
     };
+
     /*const_iterator  cbegin(){
-        return nodes.front();
+        return nodes_.front();
     };
     const_iterator  cend(){
-        return nodes.back();
+        return nodes_.back();
     };*/
-    iterator begin() { return nodes.begin(); }
-    iterator end() { return nodes.end(); }
-    const_iterator begin() const { return nodes.cbegin(); }
-    const_iterator end() const { return nodes.cend(); }
-    const_iterator cbegin() const { return nodes.cbegin(); }
-    const_iterator cend() const { return nodes.cend(); }
+
+    iterator begin() { return nodes_.begin(); }
+    iterator end() { return nodes_.end(); }
+    const_iterator begin() const { return nodes_.cbegin(); }
+    const_iterator end() const { return nodes_.cend(); }
+    const_iterator cbegin() const { return nodes_.cbegin(); }
+    const_iterator cend() const { return nodes_.cend(); }
 
 
 protected:
-    container_t nodes;
+
+    container_t nodes_;
+
 };
 
 class Ramps: public NodeCollection<Ramp>{
