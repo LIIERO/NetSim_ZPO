@@ -73,9 +73,9 @@ public:
 
 class Factory {
 private:
-    Ramps ramps;
-    Workers workers;
-    Storehouses storehouses;
+    Ramps ramps_;
+    Workers workers_;
+    Storehouses storehouses_;
 
     template<class Node> void remove_receiver(NodeCollection<Node>& collection, ElementID id){
         for(auto& node : collection){
