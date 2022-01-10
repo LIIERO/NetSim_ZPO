@@ -44,14 +44,14 @@ TEST(RampTest, IsDeliveryOnTime) {
 
     r.receiver_preferences_.add_receiver(recv.get());
 
-    r.deliver_goods(1);
+    r.delivery_goods(1);
     ASSERT_TRUE(r.get_sending_buffer().has_value());
     r.send_package();
 
-    r.deliver_goods(2);
+    r.delivery_goods(2);
     ASSERT_FALSE(r.get_sending_buffer().has_value());
 
-    r.deliver_goods(3);
+    r.delivery_goods(3);
     ASSERT_TRUE(r.get_sending_buffer().has_value());
 }
 
@@ -134,11 +134,11 @@ void PrintTo(const IPackageStockpile::const_iterator& it, ::std::ostream* os) {
 }
 
 class PackageSenderFixture : public PackageSender {
-    // Nie sposób w teście wykorzystać prywetnej metody `PackageSender::push_package()`,
+    // Nie sposób w teście wykorzystać prywetnej metody `PackageSender::push_package_fixture()`,
     // dlatego do celów testowych stworzona została implementacja zawierająca
-    // metodę `push_package()` w sekcji publicznej.
+    // metodę `push_package_fixture()` w sekcji publicznej.
 public:
-    void push_package(Package&& package) { PackageSender::push_package(std::move(package)); }
+    void push_package_fixture(Package&& package) { PackageSender::push_package(std::move(package)); }
 };
 
 
@@ -151,7 +151,7 @@ TEST(PackageSenderTest, SendPackage) {
     PackageSenderFixture sender;
     sender.receiver_preferences_.add_receiver(&mock_receiver);
     // Zwróć uwagę, że poniższa instrukcja korzysta z semantyki referencji do r-wartości.
-    sender.push_package(Package());
+    sender.push_package_fixture(Package());
 
     sender.send_package();
 

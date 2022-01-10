@@ -25,7 +25,7 @@ public:
 
     virtual void receive_package(Package&& package) = 0;
 
-    virtual ReceiverType get_receiver_type() const = 0;
+    //virtual ReceiverType get_receiver_type() const = 0;
 
     virtual IPackageStockpile::const_iterator begin() const = 0;
     virtual IPackageStockpile::const_iterator end() const = 0;
@@ -33,6 +33,8 @@ public:
     virtual IPackageStockpile::const_iterator cend() const = 0;
 
     virtual ElementID get_id() const = 0;
+
+    virtual ~IPackageReceiver() = default;
 
 };
 
@@ -44,7 +46,6 @@ public:
     using preferences_t = std::map<IPackageReceiver*, double>;
     using const_iterator = preferences_t::const_iterator;
 
-    ReceiverPreferences() = default;
 
     ReceiverPreferences(ProbabilityGenerator pg = probability_generator) : pg_(pg) {};
 
@@ -55,6 +56,11 @@ public:
     IPackageReceiver* choose_receiver();
 
     const preferences_t& get_preferences() const { return preferences_; }
+
+    const_iterator begin() const { return preferences_.cbegin(); }
+    const_iterator end() const { return preferences_.cend(); }
+    const_iterator cbegin() const { return preferences_.cbegin(); }
+    const_iterator cend() const { return preferences_.cend(); }
 
 private:
 
@@ -101,12 +107,12 @@ public:
 
     void receive_package(Package&& other_package) override;
 
-    IPackageStockpile::const_iterator begin() const override { return d_->begin(); };
-    IPackageStockpile::const_iterator end() const override { return d_->end();};
-    IPackageStockpile::const_iterator cbegin() const override { return d_->cbegin(); };
-    IPackageStockpile::const_iterator cend() const override { return d_->cend(); };
+    IPackageStockpile::const_iterator begin() const override { return d_->begin(); }
+    IPackageStockpile::const_iterator end() const override { return d_->end();}
+    IPackageStockpile::const_iterator cbegin() const override { return d_->cbegin(); }
+    IPackageStockpile::const_iterator cend() const override { return d_->cend(); }
 
-    ReceiverType get_receiver_type() const override { return node_type_; }
+    //ReceiverType get_receiver_type() const override { return node_type_; }
 
 private:
 
@@ -163,7 +169,7 @@ public:
     IPackageStockpile::const_iterator cbegin() const override { return q_->cbegin(); };
     IPackageStockpile::const_iterator cend() const override { return q_->cend(); };
 
-    ReceiverType get_receiver_type() const override { return node_type_; }
+    //ReceiverType get_receiver_type() const override { return node_type_; }
 
 private:
 
