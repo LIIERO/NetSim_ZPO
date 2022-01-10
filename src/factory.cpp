@@ -1,9 +1,7 @@
 
 
 #include "factory.hpp"
-
-
-
+#include "nodes.hpp"
 
 void Factory::add_worker(Worker && worker) {
     workers->add(std::move(worker));
@@ -37,17 +35,17 @@ NodeCollection<Worker>::iterator Factory::find_worker_by_id(ElementID id) {
 NodeCollection<Storehouse>::iterator Factory::find_storehouse_by_id(ElementID id) {
     return storehouses->find_by_id(id);
 }
-NodeCollection<Ramp>::const_iterator Factory::find_ramp_by_cid(ElementID id) {
+NodeCollection<Ramp>::const_iterator Factory::find_ramp_by_id(ElementID id) const{
 
-    return ramps->find_by_cid(id);
+    return ramps->find_by_id(id);
 }
 
-NodeCollection<Worker>::const_iterator Factory::find_worker_by_cid(ElementID id) {
-    return workers->find_by_cid(id);
+NodeCollection<Worker>::const_iterator Factory::find_worker_by_id(ElementID id) const{
+    return workers->find_by_id(id);
 }
 
-NodeCollection<Storehouse>::const_iterator Factory::find_storehouse_by_cid(ElementID id) {
-    return storehouses->find_by_cid(id);
+NodeCollection<Storehouse>::const_iterator Factory::find_storehouse_by_id(ElementID id) const{
+    return storehouses->find_by_id(id);
 }
 
 NodeCollection<Ramp>::const_iterator Factory::ramp_cbegin() {
@@ -72,8 +70,30 @@ NodeCollection<Storehouse>::const_iterator Factory::storehouse_cend() {
 
 void Factory::remove_receiver(NodeCollection<IPackageReceiver> &collection, ElementID id) {
 
-
 }
 bool Factory::is_consistent() {
-    NodeColor color
+    NodeColor color;
+}
+void Factory::do_deliveries(Time T) {
+    ramps->do_ramps(T);
+}
+
+void Factory::do_work(Time T) {
+    workers->do_workers(T);
+}
+
+void Factory::do_package_passing() {
+
+}
+
+void Workers::do_workers(Time T) {
+    for(size_t i = 0; i < nodes.size(); i++){
+        nodes.at(i).do_work(T);
+    }
+}
+
+void Ramps::do_ramps(Time T) {
+    for(size_t i = 0; i < nodes.size(); i++){
+        nodes.at(i).delivery_goods(T);
+    }
 }
