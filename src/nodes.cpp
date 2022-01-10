@@ -48,5 +48,36 @@ void Worker::receive_package(Package&& package) {
 void Storehouse::receive_package(Package&& other_package) {
     // TODO generalnie to jest to z własnością i nie jestem
     // TODO pewienczy to gówno tak ma wyglądać, poprawić ewentualnie
-    package_queue_ptr_->push(std::move(other_package));
+    d_->push(std::move(other_package));
 }
+
+void ReceiverPreferences::scale() {
+    auto size = double(preferences_.size());
+
+    for(auto& it : preferences_){
+        it.second = 1/size;
+    }
+}
+
+void ReceiverPreferences::add_receiver(IPackageReceiver* r) {
+    preferences_.insert(std::make_pair(r, 1));
+    scale();
+}
+
+void ReceiverPreferences::remove_receiver(IPackageReceiver* r) {
+    preferences_.erase(r);
+    scale();
+}
+
+IPackageReceiver *ReceiverPreferences::choose_receiver() {
+    auto choice = pg_();
+    double sum = 0;
+
+    for (auto & it : preferences_) {
+        if (choice >= sum && choice < sum + it.second)
+            return it.first;
+        sum += it.second;
+    }
+    return nullptr;
+}
+

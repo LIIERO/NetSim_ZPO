@@ -54,11 +54,15 @@ public:
 
     IPackageReceiver* choose_receiver();
 
-    preferences_t& get_preferences();
+    const preferences_t& get_preferences() const { return preferences_; }
 
 private:
 
     ProbabilityGenerator pg_;
+
+    preferences_t preferences_;
+
+    void scale();
 
 };
 
