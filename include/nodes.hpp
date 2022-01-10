@@ -13,7 +13,7 @@
 
 
 
-enum class ReceiverType{
+enum class ReceiverType {
     WORKER,
     STOREHOUSE
 };
@@ -25,7 +25,7 @@ public:
 
     virtual void receive_package(Package&& package) = 0;
 
-    virtual ReceiverType get_receiver_type() = 0;
+    virtual ReceiverType get_receiver_type() const = 0;
 
     virtual IPackageStockpile::const_iterator begin() const = 0;
     virtual IPackageStockpile::const_iterator end() const = 0;
@@ -40,10 +40,13 @@ public:
 
 class ReceiverPreferences {
 public:
+
     using preferences_t = std::map<IPackageReceiver*, double>;
     using const_iterator = preferences_t::const_iterator;
 
-    ReceiverPreferences(ProbabilityGenerator pg);
+    ReceiverPreferences() = default;
+
+    ReceiverPreferences(ProbabilityGenerator pg = probability_generator) : pg_(pg) {};
 
     void add_receiver(IPackageReceiver* r);
 
@@ -53,6 +56,10 @@ public:
 
     preferences_t& get_preferences();
 
+private:
+
+    ProbabilityGenerator pg_;
+
 };
 
 
@@ -60,17 +67,21 @@ public:
 class PackageSender {
 public:
 
-    PackageSender();
+    PackageSender() = default;
+
+    PackageSender(PackageSender&&) = default;
 
     void send_package();
 
-    std::optional<Package>& get_sending_buffer() const;
+    std::optional<Package>& get_sending_buffer() { return buffer_; }
 
-    void push_package(Package&& package);
+    ReceiverPreferences receiver_preferences_; // Pole publiczne
 
-private:
+protected:
 
-    ReceiverPreferences receiver_preferences_;
+    std::optional<Package> buffer_ = std::nullopt;
+
+    void push_package(Package&& package) { buffer_.emplace(std::move(package)); }
 
 };
 
@@ -78,29 +89,28 @@ private:
 
 class Storehouse : public IPackageReceiver {
 public:
-//    PackageSender() = default;
-//
-//    PackageSender(PackageSender&& other) = default; //to jest nie potrzebne!!!
+
+    Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d =
+            std::make_unique<PackageQueue>(PackageQueueType::FIFO)) : id_(id), d_(std::move(d)) {};
 
     ElementID get_id() const override { return id_; }
 
     void receive_package(Package&& other_package) override;
 
+    IPackageStockpile::const_iterator begin() const override { return d_->begin(); };
+    IPackageStockpile::const_iterator end() const override { return d_->end();};
+    IPackageStockpile::const_iterator cbegin() const override { return d_->cbegin(); };
+    IPackageStockpile::const_iterator cend() const override { return d_->cend(); };
+
+    ReceiverType get_receiver_type() const override { return node_type_; }
+
 private:
 
     ElementID id_;
 
-    //TODO sprawdzić to
-    //std::optional<Package>& get_sending_buffer() { return buffer_; }
+    std::unique_ptr<IPackageStockpile> d_;
 
-    std::unique_ptr<IPackageStockpile> package_queue_ptr_;  // = std::make_unique<PackageQueue> (PackageQueueType::FIFO);
-                                                                // nie wiem czy to nam potrzebne ogólnie
-    //TODO to chyba  jest nie potrzebne
-//protected:
-//
-//    std::optional<Package> buffer_ = std::nullopt;
-//
-//    void push_package(Package&& package) { buffer_.emplace(std::move(package)); }
+    ReceiverType node_type_ = ReceiverType::STOREHOUSE;
 
 };
 
@@ -108,6 +118,7 @@ private:
 
 class Ramp : public PackageSender {
 public:
+
     Ramp(ElementID id, TimeOffset di): id_(id), di_(di) {}
 
     void delivery_goods(Time t);
@@ -121,6 +132,7 @@ private:
     ElementID id_;
 
     TimeOffset di_;
+
 };
 
 
@@ -142,6 +154,13 @@ public:
     //TODO: sprawdzić
     void receive_package(Package&& package) override;
 
+    IPackageStockpile::const_iterator begin() const override { return q_->begin(); };
+    IPackageStockpile::const_iterator end() const override { return q_->end();};
+    IPackageStockpile::const_iterator cbegin() const override { return q_->cbegin(); };
+    IPackageStockpile::const_iterator cend() const override { return q_->cend(); };
+
+    ReceiverType get_receiver_type() const override { return node_type_; }
+
 private:
 
     ElementID id_;
@@ -152,8 +171,8 @@ private:
 
     Time time_ = 0;
 
+    ReceiverType node_type_ = ReceiverType::WORKER;
+
 };
-
-
 
 #endif

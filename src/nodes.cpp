@@ -1,6 +1,8 @@
 #include "nodes.hpp"
 #include "storage_types.hpp"
 
+
+
 void PackageSender::send_package() {
     if (buffer_) {
         receiver_preferences_.choose_receiver()->receive_package(std::move(*buffer_));
@@ -9,6 +11,7 @@ void PackageSender::send_package() {
 }
 
 void Ramp::delivery_goods(Time t) {
+    // TODO: czy typ danych się będzie zgadzał
     // Czas liczony od jedynki czyli minus jeden żeby było git
     if ((t - 1) % di_ == 0) {
         Package pack;
@@ -16,6 +19,8 @@ void Ramp::delivery_goods(Time t) {
         send_package();
     }
 }
+
+
 
 void Worker::do_work(Time t) {
     if (!q_->empty() && !buffer_) {
@@ -33,12 +38,15 @@ void Worker::do_work(Time t) {
     }
 }
 
+
+
 void Worker::receive_package(Package&& package) {
     //TODO:
     q_->push(std::move(package));
 }
 
 void Storehouse::receive_package(Package&& other_package) {
-    package_queue_ptr_->push(std::move(other_package)); // TODO generalnie to jest to z własnością i nie jestem
-                                                            // TODO pewienczy to gówno tak ma wyglądać, poprawić
+    // TODO generalnie to jest to z własnością i nie jestem
+    // TODO pewienczy to gówno tak ma wyglądać, poprawić ewentualnie
+    package_queue_ptr_->push(std::move(other_package));
 }
