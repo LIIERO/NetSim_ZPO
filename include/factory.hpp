@@ -80,9 +80,12 @@ private:
     template<class Node> void remove_receiver(NodeCollection<Node>& collection, ElementID id){
         for(auto& node : collection){
             IPackageReceiver* receiver = nullptr;
+
             for (const auto& preferences : node.receiver_preferences_.get_preferences()){
                 if(preferences.first->get_id() == id){
-                    receiver =preferences.first;
+
+                    receiver = preferences.first;
+
                     break;
                 }
 
