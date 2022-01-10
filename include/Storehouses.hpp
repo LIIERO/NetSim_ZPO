@@ -5,10 +5,16 @@
 
 #include "NodeCollection.hpp"
 
-class Storehouses: public NodeCollection<Storehouse>{
+
+
+class Storehouses: public NodeCollection<Storehouse> {
 public:
+
     Storehouses() = default;
 
     ~Storehouses() = default;
+
 };
+
+
 #endif //NETSIM_ZPO_STOREHOUSES_HPP
