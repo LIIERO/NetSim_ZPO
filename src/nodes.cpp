@@ -16,7 +16,7 @@ void Ramp::delivery_goods(Time t) {
     if ((t - 1) % di_ == 0) {
         Package pack;
         push_package(std::move(pack));
-        send_package();
+        //send_package();
     }
 }
 
@@ -73,11 +73,12 @@ IPackageReceiver *ReceiverPreferences::choose_receiver() {
     auto choice = pg_();
     double sum = 0;
 
-    for (auto & it : preferences_) {
+    for (auto& it : preferences_) {
         if (choice >= sum && choice < sum + it.second)
             return it.first;
         sum += it.second;
     }
+
     return nullptr;
 }
 

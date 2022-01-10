@@ -13,7 +13,8 @@ set(SOURCE_FILES
         src/storage_types.cpp
         src/nodes.cpp
         src/helpers.cpp
-        src/factory.cpp)
+        src/factory.cpp
+        )
 
 
 add_executable(NetSim_ZPO ${SOURCE_FILES} main.cpp)
