@@ -1,15 +1,16 @@
 #ifndef NETSIM_ZPO_NODES_HPP
 #define NETSIM_ZPO_NODES_HPP
 
+#include "package.hpp"
 #include "storage_types.hpp"
 #include "helpers.hpp"
+#include "config.hpp"
 
-
-#include <cstdlib>
 #include <iostream>
-#include <list>
+#include <optional>
 #include <memory>
 #include <map>
+#include <utility>
 
 
 
@@ -57,8 +58,8 @@ public:
 
     const preferences_t& get_preferences() const { return preferences_; }
 
-    const_iterator begin() const { return preferences_.cbegin(); }
-    const_iterator end() const { return preferences_.cend(); }
+    const_iterator begin() const { return preferences_.begin(); }
+    const_iterator end() const { return preferences_.end(); }
     const_iterator cbegin() const { return preferences_.cbegin(); }
     const_iterator cend() const { return preferences_.cend(); }
 
