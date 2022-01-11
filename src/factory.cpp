@@ -115,7 +115,7 @@ NodeCollection<Storehouse>::const_iterator Factory::storehouse_cend() {
 
 void Factory::do_deliveries(Time t) {
     for (auto &r: ramps_)
-        r.delivery_goods(t);
+        r.deliver_goods(t);
 }
 
 

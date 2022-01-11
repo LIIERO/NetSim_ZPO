@@ -132,7 +132,7 @@ public:
 
     Ramp(ElementID id, TimeOffset di): id_(id), di_(di) {}
 
-    void delivery_goods(Time t);
+    void deliver_goods(Time t);
 
     TimeOffset get_delivery_interval() const { return di_; };
 

@@ -12,7 +12,7 @@ void PackageSender::send_package() {
 
 
 
-void Ramp::delivery_goods(Time t) {
+void Ramp::deliver_goods(Time t) {
     // TODO: czy typ danych się będzie zgadzał
     // Czas liczony od jedynki czyli minus jeden żeby było git
     if ((t - 1) % di_ == 0) {
