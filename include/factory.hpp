@@ -167,6 +167,10 @@ enum class NodeColor {
     VERIFIED
 };
 
+Factory load_factory_structure(std::istream& is);
+void save_factory_structure(Factory& factory, std::ostream& os);
 
-
+enum class ElementType {
+    RAMP, WORKER, STOREHOUSE, LINK
+};
 #endif

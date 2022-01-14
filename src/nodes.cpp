@@ -87,3 +87,6 @@ IPackageReceiver *ReceiverPreferences::choose_receiver() {
     return nullptr;
 }
 
+IPackageQueue * Worker::get_queue(void ) const {
+    return q_.get();
+}

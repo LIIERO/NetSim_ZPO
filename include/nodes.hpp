@@ -162,6 +162,7 @@ public:
     //implementacja IPackageReceiver
     ElementID get_id() const override { return id_; }
 
+    IPackageQueue * get_queue () const;
     //TODO: sprawdzić
     void receive_package(Package&& package) override;
 
