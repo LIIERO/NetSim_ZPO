@@ -14,6 +14,7 @@ set(SOURCE_FILES
         src/nodes.cpp
         src/helpers.cpp
         src/factory.cpp
+        src/simulation.cpp
         )
 
 
