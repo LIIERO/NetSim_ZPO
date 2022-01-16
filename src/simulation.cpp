@@ -11,5 +11,4 @@ void simulate(Factory& f, TimeOffset d, std::function<void (Factory&, Time)> rf)
         f.do_work(t);
         rf(f, t);
     }
-    return;
 }
