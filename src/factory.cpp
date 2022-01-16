@@ -226,7 +226,7 @@ std::string str_rt (ReceiverType typ){
     throw std::invalid_argument("Taki odbiorca nie istnieje!");
 }
 
-std::vector<std::string> parse_line(std::string line, char delimiter){
+std::vector<std::string> split_line(std::string &line, char delimiter){
     std::vector<std::string> tokens;
     std::string token;
     std::istringstream token_stream(line);
@@ -277,14 +277,14 @@ void load(Factory &factory_, std::vector<std::string> &sender, std::vector<std::
     }
 }
 
-ParsedLineData parsed_line (std::string line){
-    auto words = parse_line(line,' ');
+ParsedLineData parse_line (std::string line){
+    auto words = split_line(line, ' ');
     std::list<std::string> tokens (std::make_move_iterator(words.begin()),std::make_move_iterator(words.end()));
     ParsedLineData node;
     node.elemnt_type = eltype(std::move((tokens.front())));
     tokens.pop_front();
     for (auto &el :tokens){
-        auto key_value = parse_line(el, '=');
+        auto key_value = split_line(el, '=');
         node.parametrs.insert({key_value[0], key_value[1]});
     }
     return node;
@@ -297,7 +297,7 @@ Factory load_factory_structure(std::istream& is){
         if (line.empty() || isblank(line[0])) continue;
         else if (!line.empty() && line[0] == ';') continue;
         else{
-            auto parsed = parsed_line(line);
+            auto parsed = parse_line(line);
             switch (parsed.elemnt_type){
                 case ElementType::RAMP: {
                     Ramp ramp_(static_cast<ElementID>(std::stoi(parsed.parametrs["id"])), std::stoi(parsed.parametrs["delivery-interval"]));
@@ -315,8 +315,8 @@ Factory load_factory_structure(std::istream& is){
                             break;
                     }
                     case ElementType::LINK: {
-                            auto sender_val = parse_line(parsed.parametrs["sender"],'-');
-                            auto receiver_val = parse_line(parsed.parametrs["receiver"],'-');
+                            auto sender_val = split_line(parsed.parametrs["src"], '-');
+                            auto receiver_val = split_line(parsed.parametrs["dest"], '-');
                             load(factory_, sender_val, receiver_val);
                             break;
                     }
