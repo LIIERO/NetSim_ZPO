@@ -1,11 +1,11 @@
 #include "helpers.hpp"
 
+#include <cstdlib>
 #include <random>
 
 // Do generowania wysokiej jakości ciągów liczb pseudolosowych warto użyć
 // zaawansowanych generatorów, np. algorytmu Mersenne Twister.
 // zob. https://en.cppreference.com/w/cpp/numeric/random
-
 std::random_device rd;
 std::mt19937 rng(rd());
 

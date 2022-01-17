@@ -13,8 +13,7 @@ void PackageSender::send_package() {
 
 
 void Ramp::deliver_goods(Time t) {
-    // TODO: czy typ danych się będzie zgadzał
-    // Czas liczony od jedynki czyli minus jeden żeby było git
+
     if ((t - 1) % di_ == 0) {
         Package pack;
         push_package(std::move(pack));
@@ -26,13 +25,13 @@ void Ramp::deliver_goods(Time t) {
 
 void Worker::do_work(Time t) {
     if (!q_->empty() && !buffer_) {
-        // Pobranie nowego produktu i rozpoczęcie przetwarzania
+
         buffer_.emplace(q_->pop());
         time_ = t;
     } if (buffer_ && t >= time_ + pd_) {
         send_package();
 
-        // Jeśli coś przekazał to zaczyna pracę nad następnym? Czy czeka kolejkę? Jeśli czeka to można usunąć
+
         if (!q_->empty()) {
             buffer_.emplace(q_->pop());
             time_ = t;

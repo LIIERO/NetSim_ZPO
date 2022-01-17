@@ -84,7 +84,7 @@ public:
 
     void send_package();
 
-    std::optional<Package>& get_sending_buffer() { return buffer_; }
+    const std::optional<Package>& get_sending_buffer() const { return buffer_; }
 
     ReceiverPreferences receiver_preferences_; // Pole publiczne
 
@@ -172,6 +172,12 @@ public:
 
     ReceiverType get_receiver_type() const override { return node_type_; }
 
+    IPackageQueue* get_queue() const { return q_.get(); }
+
+    const std::optional<Package>& get_processing_buffer() const { return buffer; }
+
+    Time get_package_processing_start_time() const { return time_; }
+
 private:
 
     ElementID id_;
@@ -183,6 +189,8 @@ private:
     Time time_ = 0;
 
     ReceiverType node_type_ = ReceiverType::WORKER;
+
+    std::optional<Package> buffer = std::nullopt;
 
 };
 
