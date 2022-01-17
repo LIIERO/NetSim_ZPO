@@ -162,7 +162,12 @@ public:
     //implementacja IPackageReceiver
     ElementID get_id() const override { return id_; }
 
-    IPackageQueue * get_queue () const;
+    IPackageQueue* get_queue() const;
+
+    PackageQueueType get_queue_type() const { return q_->get_queue_type(); }
+
+    std::optional<Package>& get_processing_buffer() { return buffer_; }
+
     //TODO: sprawdzić
     void receive_package(Package&& package) override;
 
