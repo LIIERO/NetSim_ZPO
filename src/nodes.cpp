@@ -40,8 +40,6 @@ void Worker::do_work(Time t) {
     }
 }
 
-
-
 void Worker::receive_package(Package&& package) {
     q_->push(std::move(package));
 }

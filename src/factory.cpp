@@ -78,37 +78,37 @@ NodeCollection<Storehouse>::const_iterator Factory::find_storehouse_by_id(Elemen
 
 
 
-NodeCollection<Ramp>::const_iterator Factory::ramp_cbegin() {
+NodeCollection<Ramp>::const_iterator Factory::ramp_cbegin() const {
     return ramps_.cbegin();
 }
 
 
 
-NodeCollection<Worker>::const_iterator Factory::worker_cbegin() {
+NodeCollection<Worker>::const_iterator Factory::worker_cbegin() const {
     return workers_.cbegin();
 }
 
 
 
-NodeCollection<Storehouse>::const_iterator Factory::storehouse_cbegin() {
+NodeCollection<Storehouse>::const_iterator Factory::storehouse_cbegin() const {
     return storehouses_.cbegin();
 }
 
 
 
-NodeCollection<Ramp>::const_iterator Factory::ramp_cend() {
+NodeCollection<Ramp>::const_iterator Factory::ramp_cend() const {
     return ramps_.cend();
 }
 
 
 
-NodeCollection<Worker>::const_iterator Factory::worker_cend() {
+NodeCollection<Worker>::const_iterator Factory::worker_cend() const {
     return workers_.cend();
 }
 
 
 
-NodeCollection<Storehouse>::const_iterator Factory::storehouse_cend() {
+NodeCollection<Storehouse>::const_iterator Factory::storehouse_cend() const {
     return storehouses_.cend();
 }
 
@@ -131,9 +131,8 @@ void Factory::do_work(Time t) {
 void Factory::do_package_passing() {
     for (auto &r: ramps_)
         r.send_package();
-    for (auto &w: workers_)
-        w.send_package();
-
+    /*for (auto &w: workers_)
+        w.send_package();*/
 }
 
 
