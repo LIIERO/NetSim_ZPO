@@ -139,13 +139,13 @@ public:
     NodeCollection<Worker>::const_iterator find_worker_by_id(ElementID id)  const;
     NodeCollection<Storehouse>::const_iterator find_storehouse_by_id(ElementID id)  const;
 
-    NodeCollection<Ramp>::const_iterator  ramp_cbegin();
-    NodeCollection<Worker>::const_iterator  worker_cbegin();
-    NodeCollection<Storehouse>::const_iterator  storehouse_cbegin();
+    NodeCollection<Ramp>::const_iterator ramp_cbegin() const;
+    NodeCollection<Worker>::const_iterator worker_cbegin() const;
+    NodeCollection<Storehouse>::const_iterator storehouse_cbegin() const;
 
-    NodeCollection<Ramp>::const_iterator  ramp_cend();
-    NodeCollection<Worker>::const_iterator  worker_cend();
-    NodeCollection<Storehouse>::const_iterator  storehouse_cend();
+    NodeCollection<Ramp>::const_iterator ramp_cend() const;
+    NodeCollection<Worker>::const_iterator worker_cend() const;
+    NodeCollection<Storehouse>::const_iterator storehouse_cend() const;
 
     bool is_consistent(void) const;
 
